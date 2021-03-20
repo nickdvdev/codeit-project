@@ -1,18 +1,32 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css'
-import Navigation from './components/Navigation/Navigation';
 import SignInForm from './components/SignInForm/SignInForm';
 import RegistrationForm from './components/RegistrationForm/RegistrationForm';
+import Homepage from './components/Homepage/Homepage';
+import React from 'react';
 
 
-function App() {
-  return (
-    <div className="App">
-      <Navigation />
-      <SignInForm />
-      <RegistrationForm />
-    </div>
-  );
+class App extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      route: 'signin',
+    };
+  }
+
+  onRouteChange = (route) => {
+    this.setState({ route: route });
+  };
+
+  render() {
+    return (
+      <div className="App">
+        <SignInForm />
+        <RegistrationForm />
+        <Homepage />
+      </div>
+    );
+  }
 }
 
 export default App;
