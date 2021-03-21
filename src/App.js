@@ -6,24 +6,66 @@ import Homepage from './components/Homepage/Homepage';
 import React from 'react';
 
 
+const initialState = {
+  route: 'signin',
+  isSignedIn: false,
+  user: {
+    email: '',
+    username: '',
+    countryId: '',
+    birthDate: '',
+    userLogin: '',
+  }
+};
+
 class App extends React.Component {
   constructor() {
     super();
-    this.state = {
-      route: 'signin',
-    };
+    this.state = initialState;
+  }
+
+  loadUser = (data) => {
+    this.setState({
+      user: {
+        id: data.id,
+        username: data.username,
+        email: data.email,
+        entries: data.entries,
+        joined: data.joined
+      }
+    })
+  }
+
+  onInputChange = (event) => {
+    this.setState({ input: event.target.value });
   }
 
   onRouteChange = (route) => {
+    if (route === 'signout') {
+      this.setState(initialState)
+    } else if (route === 'home') {
+      this.setState({ isSignedIn: true })
+    }
     this.setState({ route: route });
   };
 
   render() {
+    const { route } = this.state;
+
     return (
-      <div className="App">
-        <SignInForm />
-        <RegistrationForm />
-        <Homepage />
+      <div className="App App-header">
+        { route === 'home'
+          ? <Homepage
+            name={this.state.user.username}
+            email={this.state.user.email}
+            isSignedIn={this.state.isSignedIn}
+          />
+          : (
+            route === 'signin'
+              ? <SignInForm loadUser={this.loadUser} onRouteChange={this.onRouteChange} />
+              : <RegistrationForm loadUser={this.loadUser} onRouteChange={this.onRouteChange} />
+          )
+        }
       </div>
     );
   }

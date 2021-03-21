@@ -1,6 +1,52 @@
 import React from 'react';
 
 export default class RegistrationForm extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            email: '',
+            password: '',
+            username: '',
+            countryId: '',
+            birthDate: '',
+            userLogin: '',
+        }
+    };
+
+    onNameChange = (event) => {
+        this.setState({ username: event.target.value })
+    };
+
+    onEmailChange = (event) => {
+        this.setState({ email: event.target.value })
+    };
+
+    onPasswordChange = (event) => {
+        this.setState({ password: event.target.value })
+    };
+
+    onSubmitSignIn = () => {
+        fetch('http://localhost:3000/register', {
+            method: 'post',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                email: this.state.email,
+                password: this.state.password,
+                username: this.state.username,
+                countryId: this.state.countryId,
+                userLogin: this.state.userLogin,
+                birthDate: this.state.birthDate,
+            })
+        })
+            .then(response => response.json())
+            .then(user => {
+                if (user.id) {
+                    this.props.loadUser(user)
+                    this.props.onRouteChange('home');
+                }
+            })
+    };
+
     render() {
         return (
             <div className='container'>
@@ -11,7 +57,12 @@ export default class RegistrationForm extends React.Component {
                             <div className="form-row">
                                 <div className="form-group col-md-6">
                                     <label htmlFor="inputEmail4">Email</label>
-                                    <input type="email" className="form-control" id="inputEmail4" />
+                                    <input
+                                        type="email"
+                                        className="form-control"
+                                        id="inputEmail4"
+                                        onChange={this.onEmailChange}
+                                    />
                                 </div>
                                 <div className="form-group col-md-6">
                                     <label htmlFor="inputPassword4">Password</label>
@@ -51,7 +102,11 @@ export default class RegistrationForm extends React.Component {
                                     </label>
                                 </div>
                             </div>
-                            <button type="submit" className="btn btn-outline-primary btn-lg btn-block">Sign Up</button>
+                            <button
+                                type="submit"
+                                className="btn btn-outline-primary btn-lg btn-block"
+                                onClick={this.onSubmitSignIn}
+                            >Sign Up</button>
                         </form>
                     </div>
                 </div>
