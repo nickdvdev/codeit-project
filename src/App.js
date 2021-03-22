@@ -1,5 +1,5 @@
 import './App.css';
-import 'bootstrap/dist/css/bootstrap.min.css'
+import 'bootstrap/dist/css/bootstrap.min.css';
 import SignInForm from './components/SignInForm/SignInForm';
 import RegistrationForm from './components/RegistrationForm/RegistrationForm';
 import Homepage from './components/Homepage/Homepage';
