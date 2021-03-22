@@ -4,17 +4,21 @@ export default class RegistrationForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            username: '',
+            userLogin: '',
             email: '',
             password: '',
-            username: '',
-            countryId: '',
             birthDate: '',
-            userLogin: '',
+            countryId: '',
         }
     };
 
     onNameChange = (event) => {
         this.setState({ username: event.target.value })
+    };
+
+    onLoginChange = (event) => {
+        this.setState({ userLogin: event.target.value })
     };
 
     onEmailChange = (event) => {
@@ -25,17 +29,28 @@ export default class RegistrationForm extends React.Component {
         this.setState({ password: event.target.value })
     };
 
+    onBirthDateChange = (event) => {
+        this.setState({ birthDate: event.target.value })
+    };
+
+    onCountryChange = (event) => {
+        this.setState({ countryId: event.target.value })
+    };
+
     onSubmitSignIn = () => {
         fetch('http://localhost:3000/register', {
             method: 'post',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
+                username: this.state.username,
+                userLogin: this.state.userLogin,
                 email: this.state.email,
                 password: this.state.password,
-                username: this.state.username,
+                birthDate: new Date(this.state.birthDate)
+                    .toISOString()
+                    .slice(0, 19)
+                    .replace('T', ' '),
                 countryId: this.state.countryId,
-                userLogin: this.state.userLogin,
-                birthDate: this.state.birthDate,
             })
         })
             .then(response => response.json())
@@ -56,47 +71,85 @@ export default class RegistrationForm extends React.Component {
                         <form>
                             <div className="form-row">
                                 <div className="form-group col-md-6">
+                                    <label htmlFor="userName4">Name</label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        id="userName4"
+                                        onChange={this.onNameChange}
+                                        placeholder="Your name"
+                                        required
+                                    />
+                                </div>
+                                <div className="form-group col-md-6">
+                                    <label htmlFor="inputUserLogin4">Login</label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        id="inputUserLogin4"
+                                        onChange={this.onLoginChange}
+                                        placeholder="Your login"
+                                        required
+                                    />
+                                </div>
+                            </div>
+                            <div className="form-row">
+                                <div className="form-group col-md-6">
                                     <label htmlFor="inputEmail4">Email</label>
                                     <input
                                         type="email"
                                         className="form-control"
                                         id="inputEmail4"
                                         onChange={this.onEmailChange}
+                                        placeholder="Enter email"
+                                        required
                                     />
                                 </div>
                                 <div className="form-group col-md-6">
                                     <label htmlFor="inputPassword4">Password</label>
-                                    <input type="password" className="form-control" id="inputPassword4" />
+                                    <input
+                                        type="password"
+                                        className="form-control"
+                                        id="inputPassword4"
+                                        onChange={this.onPasswordChange}
+                                        placeholder="Enter password"
+                                        required
+                                    />
                                 </div>
-                            </div>
-                            <div className="form-group">
-                                <label htmlFor="inputAddress">Address</label>
-                                <input type="text" className="form-control" id="inputAddress" placeholder="1234 Main St" />
-                            </div>
-                            <div className="form-group">
-                                <label htmlFor="inputAddress2">Address 2</label>
-                                <input type="text" className="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor" />
                             </div>
                             <div className="form-row">
                                 <div className="form-group col-md-6">
-                                    <label htmlFor="inputCity">City</label>
-                                    <input type="text" className="form-control" id="inputCity" />
+                                    <label htmlFor="inputBirthDate">Birth Date</label>
+                                    <input
+                                        type="date"
+                                        className="form-control"
+                                        id="inputBirthDate"
+                                        onChange={this.onBirthDateChange}
+                                        placeholder="Choose birth date"
+                                    />
                                 </div>
-                                <div className="form-group col-md-4">
-                                    <label htmlFor="inputState">State</label>
-                                    <select id="inputState" className="form-control">
-                                        <option selected>Choose...</option>
-                                        <option>...</option>
+                                <div className="form-group col-md-6">
+                                    <label htmlFor="inputCountry">Country</label>
+                                    <select
+                                        id="inputCountry"
+                                        className="form-control"
+                                        onChange={this.onCountryChange}
+                                        placeholder="Choose country"
+                                        required
+                                    >
+                                        <option value="1">Russia</option>
+                                        <option value="2">Ukraine</option>
                                     </select>
-                                </div>
-                                <div className="form-group col-md-2">
-                                    <label htmlFor="inputZip">Zip</label>
-                                    <input type="text" className="form-control" id="inputZip" />
                                 </div>
                             </div>
                             <div className="form-group">
                                 <div className="form-check">
-                                    <input className="form-check-input" type="checkbox" id="gridCheck" />
+                                    <input
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        id="gridCheck"
+                                        required
+                                    />
                                     <label className="form-check-label" htmlFor="gridCheck">
                                         I agree to terms and conditions
                                     </label>

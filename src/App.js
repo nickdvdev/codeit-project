@@ -10,11 +10,12 @@ const initialState = {
   route: 'signin',
   isSignedIn: false,
   user: {
-    email: '',
+    id: '',
     username: '',
-    countryId: '',
-    birthDate: '',
+    email: '',
     userLogin: '',
+    birthDate: '',
+    countryId: '',
   }
 };
 
@@ -30,14 +31,11 @@ class App extends React.Component {
         id: data.id,
         username: data.username,
         email: data.email,
-        entries: data.entries,
-        joined: data.joined
+        userLogin: data.userLogin,
+        birthDate: data.birthDate,
+        countryId: data.countryId,
       }
     })
-  }
-
-  onInputChange = (event) => {
-    this.setState({ input: event.target.value });
   }
 
   onRouteChange = (route) => {
